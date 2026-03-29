@@ -17,7 +17,7 @@ export default StyleSheet.create({
     },
 
     box: {
-        flex: 1,
+        flex: 1, //Boxes stretch evenly using flex: 1
         backgroundColor: "#e6e6e6",
         borderWidth: 1,
         borderColor: "#999",
