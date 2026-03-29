@@ -1,32 +1,30 @@
-import {StyleSheet} from "react-native";
+import {StyleSheet, StatusBar} from "react-native";
 
 export default StyleSheet.create({
     container: {
         flex: 1,
-        padding: 16,
+        paddingTop: StatusBar.currentHeight || 0,
         backgroundColor: "#fff",
     },
 
     row: {
         flexDirection: "row",
-        justifyContent: "space-between",
-        marginBottom: 16,
+        flex: 1,
     },
 
     column: {
-        flexDirection: "column",
-        justifyContent: "space-between",
+        flex: 1,
     },
 
     box: {
-        width: 120,
-        height: 120,
-        borderWidth: 2,
+        flex: 1,
+        backgroundColor: "#e6e6e6",
+        borderWidth: 1,
         borderColor: "#999",
         borderStyle: "dashed",
         justifyContent: "center",
         alignItems: "center",
-        marginBottom: 16,
+        margin: 8,
     },
 
     boxText: {
