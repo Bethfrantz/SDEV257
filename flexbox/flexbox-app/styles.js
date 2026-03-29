@@ -30,7 +30,7 @@ export default StyleSheet.create({
     },
 
     boxText: {
-        fontsize: 20,
+        fontSize: 20,
         fontWeight: "bold",
     },
 });
