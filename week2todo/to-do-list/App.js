@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  StyleSheet, 
-  Text, 
-  View, 
-  KeyboardAvoidingView, 
-  Platform, 
-  TextInput, 
-  TouchableOpacity, 
-  Keyboard 
-} from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, Platform, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import Task from './components/Task';
 
 export default function App() {
@@ -29,15 +20,20 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      {/*Today's Tasks*/}
       <View style={styles.tasksWrapper}>
         <Text style={styles.sectionTitle}>Today's Tasks</Text>
 
         <View style={styles.items}>
-          {taskItems.map((item, index) => (
-            <TouchableOpacity key={index} onPress={() => completeTask(index)}>
-              <Task text={item} />
-            </TouchableOpacity>
-          ))}
+          {/*This is where the tasks will go!*/}
+          {taskItems.map((item, index) => {
+            return(
+              <TouchableOpacity key={index} onPress={() => completeTask(index)}>
+                <Task text={item} />
+              </TouchableOpacity>
+            )
+          })
+        }
         </View>
       </View>
 
@@ -52,7 +48,7 @@ export default function App() {
           onChangeText={(text) => setTask(text)}
         />
 
-        <TouchableOpacity onPress={handleAddTask}>
+        <TouchableOpacity onPress={() => handleAddTask()}>
           <View style={styles.addWrapper}>
             <Text style={styles.addText}>+</Text>
           </View>
@@ -63,10 +59,21 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#E8EAED' },
-  tasksWrapper: { paddingTop: 80, paddingHorizontal: 20 },
-  sectionTitle: { fontSize: 24, fontWeight: 'bold' },
-  items: { marginTop: 30 },
+  container: { 
+    flex: 1, 
+    backgroundColor: '#E8EAED' 
+  },
+  tasksWrapper: { 
+    paddingTop: 80, 
+    paddingHorizontal: 20 
+  },
+  sectionTitle: { 
+    fontSize: 24, 
+    fontWeight: 'bold' 
+  },
+  items: { 
+    marginTop: 30 
+  },
 
   writeTaskWrapper: {
     position: 'absolute',
@@ -98,6 +105,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
 
-  addText: { fontSize: 24 },
+  addText: { 
+    fontSize: 24 
+  },
 });
 
