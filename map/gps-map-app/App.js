@@ -10,6 +10,9 @@ const API_KEY = "AIzaSyBGXcxZtZR7LNkbACliKtSFYo3_q4zdxAo";
 const URL = `https://maps.google.com/maps/api/geocode/json?key=${API_KEY}&latlng=`;
 
 //  Polygon region around Swan Lake Chophouse
+// NOTE: Real GPS logic is used here. 
+// If testing in an iOS/Web simulator, coordinates may default to New York.
+// Use a physical device (Expo Go) for accurate location tracking.
 const chophouseRegion = {
   coordinates: [
     { latitude: 41.41040, longitude: -86.35120 },
