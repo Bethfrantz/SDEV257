@@ -1,27 +1,64 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, Modal, StyleSheet } from 'react-native';
 
 export default function SpaceshipsScreen() {
-  const [ships, setShips] = useState([]);
+  const [searchText, setSearchText] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
-  useEffect(() => {
-    fetch("https://swapi.dev/api/starships/")
-      .then((res) => res.json())
-      .then((data) => setShips(data.results))
-      .catch((err) => console.log(err));
-  }, []);
+  const handleSubmit = () => {
+    setModalVisible(true);
+  };
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <FlatList
-        data={ships}
-        keyExtractor={(item) => item.name}
-        renderItem={({ item }) => (
-          <Text style={{ padding: 10, fontSize: 18 }}>
-            {item.name}
-          </Text>
-        )}
+    <View style={styles.container}>
+      <Text style={styles.header}>Spaceships</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Search spaceships..."
+        value={searchText}
+        onChangeText={setSearchText}
       />
+
+      <Button title="Submit" onPress={handleSubmit} />
+
+      <Modal visible={modalVisible} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>You entered:</Text>
+            <Text style={styles.modalText}>{searchText}</Text>
+
+            <Button title="Close" onPress={() => setModalVisible(false)} />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 20 },
+  header: { fontSize: 24, marginBottom: 15, fontWeight: 'bold' },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 6,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 25,
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+  modalText: { fontSize: 18, marginBottom: 15 },
+});
+

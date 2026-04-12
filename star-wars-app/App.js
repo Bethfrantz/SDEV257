@@ -38,3 +38,11 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      {Platform.OS === "ios" ? <IOSNavigator /> : <AndroidNavigator />}
+    </NavigationContainer>
+  );
+}
