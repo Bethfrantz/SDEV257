@@ -1,13 +1,34 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Modal, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  Modal,
+  StyleSheet,
+  ScrollView
+} from 'react-native';
+
+import SwipeableItem from '../components/SwipeableItem';
 
 export default function SpaceshipsScreen() {
   const [searchText, setSearchText] = useState('');
+  const [ships, setShips] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedShip, setSelectedShip] = useState(null);
 
-  const handleSubmit = () => {
+  // Example fetch — replace with your existing fetch logic
+  useEffect(() => {
+    fetch("https://swapi.dev/api/starships/")
+      .then(res => res.json())
+      .then(data => setShips(data.results))
+      .catch(err => console.error(err));
+  }, []);
+
+  function handleSwipe(ship) {
+    setSelectedShip(ship);
     setModalVisible(true);
-  };
+  }
 
   return (
     <View style={styles.container}>
@@ -20,13 +41,24 @@ export default function SpaceshipsScreen() {
         onChangeText={setSearchText}
       />
 
-      <Button title="Submit" onPress={handleSubmit} />
+      <ScrollView style={{ marginTop: 10 }}>
+        {ships
+          .filter(s => s.name.toLowerCase().includes(searchText.toLowerCase()))
+          .map(ship => (
+            <SwipeableItem
+              key={ship.name}
+              item={ship}
+              onSwipe={handleSwipe}
+            />
+          ))}
+      </ScrollView>
 
+      {/* Modal for swiped item */}
       <Modal visible={modalVisible} transparent animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalText}>You entered:</Text>
-            <Text style={styles.modalText}>{searchText}</Text>
+            <Text style={styles.modalText}>You swiped:</Text>
+            <Text style={styles.modalText}>{selectedShip?.name}</Text>
 
             <Button title="Close" onPress={() => setModalVisible(false)} />
           </View>
@@ -61,4 +93,3 @@ const styles = StyleSheet.create({
   },
   modalText: { fontSize: 18, marginBottom: 15 },
 });
-

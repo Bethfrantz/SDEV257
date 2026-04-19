@@ -1,13 +1,34 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Modal, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  Modal,
+  StyleSheet,
+  ScrollView
+} from 'react-native';
+
+import SwipeableItem from '../components/SwipeableItem';
 
 export default function FilmsScreen() {
   const [searchText, setSearchText] = useState('');
+  const [films, setFilms] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedFilm, setSelectedFilm] = useState(null);
 
-  const handleSubmit = () => {
+  // Fetch films (or use your existing fetch logic)
+  useEffect(() => {
+    fetch("https://swapi.dev/api/films/")
+      .then(res => res.json())
+      .then(data => setFilms(data.results))
+      .catch(err => console.error(err));
+  }, []);
+
+  function handleSwipe(film) {
+    setSelectedFilm(film);
     setModalVisible(true);
-  };
+  }
 
   return (
     <View style={styles.container}>
@@ -20,13 +41,24 @@ export default function FilmsScreen() {
         onChangeText={setSearchText}
       />
 
-      <Button title="Submit" onPress={handleSubmit} />
+      <ScrollView style={{ marginTop: 10 }}>
+        {films
+          .filter(f => f.title.toLowerCase().includes(searchText.toLowerCase()))
+          .map(film => (
+            <SwipeableItem
+              key={film.title}
+              item={{ name: film.title }}   // SwipeableItem expects item.name
+              onSwipe={() => handleSwipe(film)}
+            />
+          ))}
+      </ScrollView>
 
+      {/* Modal for swiped film */}
       <Modal visible={modalVisible} transparent animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalText}>You entered:</Text>
-            <Text style={styles.modalText}>{searchText}</Text>
+            <Text style={styles.modalText}>You swiped:</Text>
+            <Text style={styles.modalText}>{selectedFilm?.title}</Text>
 
             <Button title="Close" onPress={() => setModalVisible(false)} />
           </View>
