@@ -1,5 +1,7 @@
 import React from "react";
 import { ScrollView, View, Text, TouchableOpacity } from "react-native";
+import Animated, { SlideInLeft } from "react-native-reanimated";
+
 
 export default function SwipeableItem({ item, onSwipe }) {
   function handleScroll(e) {
@@ -9,6 +11,7 @@ export default function SwipeableItem({ item, onSwipe }) {
   }
 
   return (
+  <Animated.View entering={SlideInLeft}>
     <View style={{ width: 200, height: 40, marginVertical: 10 }}>
       <ScrollView
         horizontal
@@ -39,5 +42,7 @@ export default function SwipeableItem({ item, onSwipe }) {
         <View style={{ width: 200, height: 40 }} />
       </ScrollView>
     </View>
-  );
+  </Animated.View>
+);
 }
+
