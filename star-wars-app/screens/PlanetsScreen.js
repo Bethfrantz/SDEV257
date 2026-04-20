@@ -6,7 +6,8 @@ import {
   Button,
   Modal,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  Image
 } from 'react-native';
 
 import SwipeableItem from '../components/SwipeableItem';
@@ -32,6 +33,11 @@ export default function PlanetsScreen() {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../assets/images/planets.jpg")}
+        style={{ width: "100%", height: 150, resizeMode: "cover", marginBottom: 15 }}
+        loading="lazy"
+      />
       <Text style={styles.header}>Planets</Text>
 
       <TextInput
