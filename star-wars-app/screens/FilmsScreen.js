@@ -20,7 +20,7 @@ export default function FilmsScreen() {
 
   // Fetch films (or use your existing fetch logic)
   useEffect(() => {
-    fetch("https://swapi.dev/api/films/")
+    fetch("https://swapi.py4e.com/api/films/")
       .then(res => res.json())
       .then(data => setFilms(data.results))
       .catch(err => console.error(err));

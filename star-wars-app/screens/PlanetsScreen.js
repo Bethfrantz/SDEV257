@@ -20,7 +20,7 @@ export default function PlanetsScreen() {
 
   // Fetch planets (or use your existing fetch logic)
   useEffect(() => {
-    fetch("https://swapi.dev/api/planets/")
+    fetch("https://swapi.py4e.com/api/planets/")
       .then(res => res.json())
       .then(data => setPlanets(data.results))
       .catch(err => console.error(err));

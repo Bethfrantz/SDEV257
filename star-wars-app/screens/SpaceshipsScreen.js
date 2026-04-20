@@ -20,7 +20,7 @@ export default function SpaceshipsScreen() {
 
   // Example fetch — replace with your existing fetch logic
   useEffect(() => {
-    fetch("https://swapi.dev/api/starships/")
+    fetch("https://swapi.py4e.com/api/starships/")
       .then(res => res.json())
       .then(data => setShips(data.results))
       .catch(err => console.error(err));
