@@ -34,7 +34,9 @@ function AndroidNavigator() {
 
 export default function App() {
   const [isConnected, setIsConnected] = useState(true);
-
+//Expo snack was unable to simulate offline mode
+//Offline banner tested and verified working on physical device by using airplane mode
+//Offline banner verified in VSCode by using the web preview
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
       setIsConnected(state.isConnected);
