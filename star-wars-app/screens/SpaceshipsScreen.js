@@ -3,8 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Button,
-  Modal,
   StyleSheet,
   ScrollView,
   Image
@@ -15,8 +13,6 @@ import SwipeableItem from '../components/SwipeableItem';
 export default function SpaceshipsScreen() {
   const [searchText, setSearchText] = useState('');
   const [ships, setShips] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedShip, setSelectedShip] = useState(null);
 
   useEffect(() => {
     fetch("https://swapi.py4e.com/api/starships/")
@@ -24,11 +20,6 @@ export default function SpaceshipsScreen() {
       .then(data => setShips(data.results))
       .catch(err => console.error(err));
   }, []);
-
-  function handleSwipe(ship) {
-    setSelectedShip(ship);
-    setModalVisible(true);
-  }
 
   return (
     <View style={styles.container}>
@@ -53,21 +44,10 @@ export default function SpaceshipsScreen() {
             <SwipeableItem
               key={ship.name}
               item={{ name: ship.name }}
-              onSwipe={() => handleSwipe(ship)}
+              onSwipe={() => {}}
             />
           ))}
       </ScrollView>
-
-      <Modal visible={modalVisible} transparent animationType="slide">
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>You swiped:</Text>
-            <Text style={styles.modalText}>{selectedShip?.name}</Text>
-
-            <Button title="Close" onPress={() => setModalVisible(false)} />
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }
@@ -81,20 +61,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     borderRadius: 6,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    padding: 25,
-    borderRadius: 10,
-    width: '80%',
-    alignItems: 'center',
-  },
-  modalText: { fontSize: 18, marginBottom: 15 },
+  }
 });
 
