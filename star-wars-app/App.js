@@ -3,14 +3,17 @@ import { Platform, View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import NetInfo from "@react-native-community/netinfo";
 
 import PlanetsScreen from "./screens/PlanetsScreen";
 import FilmsScreen from "./screens/FilmsScreen";
 import SpaceshipsScreen from "./screens/SpaceshipsScreen";
+import FilmDetailScreen from "./screens/FilmDetailScreen";
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();                  
 
 function IOSNavigator() {
   return (
@@ -34,14 +37,11 @@ function AndroidNavigator() {
 
 export default function App() {
   const [isConnected, setIsConnected] = useState(true);
-//Expo snack was unable to simulate offline mode
-//Offline banner tested and verified working on physical device by using airplane mode
-//Offline banner verified in VSCode by using the web preview
+
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
       setIsConnected(state.isConnected);
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -55,7 +55,21 @@ export default function App() {
         </View>
       )}
 
-      {Platform.OS === "ios" ? <IOSNavigator /> : <AndroidNavigator />}
+      {/* Wrap your platform navigator inside a Stack */}
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Platform.OS === "ios" ? IOSNavigator : AndroidNavigator}
+          options={{ headerShown: false }}
+        />
+
+        {/* Your new detail screen */}
+        <Stack.Screen
+          name="FilmDetail"
+          component={FilmDetailScreen}
+          options={{ title: "Film Details" }}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

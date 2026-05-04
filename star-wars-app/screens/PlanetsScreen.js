@@ -18,7 +18,6 @@ export default function PlanetsScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedPlanet, setSelectedPlanet] = useState(null);
 
-  // Fetch planets (or use your existing fetch logic)
   useEffect(() => {
     fetch("https://swapi.py4e.com/api/planets/")
       .then(res => res.json())
@@ -36,8 +35,8 @@ export default function PlanetsScreen() {
       <Image
         source={require("../assets/images/planets.jpg")}
         style={{ width: "100%", height: 150, resizeMode: "cover", marginBottom: 15 }}
-        loading="lazy"
       />
+
       <Text style={styles.header}>Planets</Text>
 
       <TextInput
@@ -53,13 +52,12 @@ export default function PlanetsScreen() {
           .map(planet => (
             <SwipeableItem
               key={planet.name}
-              item={planet}
-              onSwipe={handleSwipe}
+              item={{ name: planet.name }}
+              onSwipe={() => handleSwipe(planet)}
             />
           ))}
       </ScrollView>
 
-      {/* Modal for swiped item */}
       <Modal visible={modalVisible} transparent animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -99,3 +97,4 @@ const styles = StyleSheet.create({
   },
   modalText: { fontSize: 18, marginBottom: 15 },
 });
+

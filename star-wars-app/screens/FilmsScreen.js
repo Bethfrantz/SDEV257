@@ -3,8 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Button,
-  Modal,
   StyleSheet,
   ScrollView,
   Image
@@ -12,13 +10,10 @@ import {
 
 import SwipeableItem from '../components/SwipeableItem';
 
-export default function FilmsScreen() {
+export default function FilmsScreen({ navigation }) {
   const [searchText, setSearchText] = useState('');
   const [films, setFilms] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedFilm, setSelectedFilm] = useState(null);
 
-  // Fetch films (or use your existing fetch logic)
   useEffect(() => {
     fetch("https://swapi.py4e.com/api/films/")
       .then(res => res.json())
@@ -27,17 +22,16 @@ export default function FilmsScreen() {
   }, []);
 
   function handleSwipe(film) {
-    setSelectedFilm(film);
-    setModalVisible(true);
+    navigation.navigate("FilmDetail", { film });
   }
 
   return (
     <View style={styles.container}>
-       <Image
+      <Image
         source={require("../assets/images/films.jpg")}
         style={{ width: "100%", height: 150, resizeMode: "cover", marginBottom: 15 }}
-        loading="lazy"
       />
+
       <Text style={styles.header}>Films</Text>
 
       <TextInput
@@ -53,23 +47,11 @@ export default function FilmsScreen() {
           .map(film => (
             <SwipeableItem
               key={film.title}
-              item={{ name: film.title }}   // SwipeableItem expects item.name
+              item={{ name: film.title }}
               onSwipe={() => handleSwipe(film)}
             />
           ))}
       </ScrollView>
-
-      {/* Modal for swiped film */}
-      <Modal visible={modalVisible} transparent animationType="slide">
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>You swiped:</Text>
-            <Text style={styles.modalText}>{selectedFilm?.title}</Text>
-
-            <Button title="Close" onPress={() => setModalVisible(false)} />
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }
@@ -83,21 +65,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     borderRadius: 6,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    padding: 25,
-    borderRadius: 10,
-    width: '80%',
-    alignItems: 'center',
-  },
-  modalText: { fontSize: 18, marginBottom: 15 },
+  }
 });
 
 

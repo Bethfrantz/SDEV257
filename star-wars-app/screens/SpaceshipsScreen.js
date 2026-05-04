@@ -18,7 +18,6 @@ export default function SpaceshipsScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedShip, setSelectedShip] = useState(null);
 
-  // Example fetch — replace with your existing fetch logic
   useEffect(() => {
     fetch("https://swapi.py4e.com/api/starships/")
       .then(res => res.json())
@@ -36,8 +35,8 @@ export default function SpaceshipsScreen() {
       <Image
         source={require("../assets/images/ships.jpg")}
         style={{ width: "100%", height: 150, resizeMode: "cover", marginBottom: 15 }}
-        loading="lazy"
       />
+
       <Text style={styles.header}>Spaceships</Text>
 
       <TextInput
@@ -53,13 +52,12 @@ export default function SpaceshipsScreen() {
           .map(ship => (
             <SwipeableItem
               key={ship.name}
-              item={ship}
-              onSwipe={handleSwipe}
+              item={{ name: ship.name }}
+              onSwipe={() => handleSwipe(ship)}
             />
           ))}
       </ScrollView>
 
-      {/* Modal for swiped item */}
       <Modal visible={modalVisible} transparent animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -99,3 +97,4 @@ const styles = StyleSheet.create({
   },
   modalText: { fontSize: 18, marginBottom: 15 },
 });
+
